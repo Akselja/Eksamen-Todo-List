@@ -5,8 +5,7 @@ form.addEventListener("submit", async e => {
 
     // store input fields
     const content = document.querySelector("#newEntry").value;
-    console.log(typeof(app.locals.email));
-
+    
     // post
     try {
         const res = await fetch('/todo', {

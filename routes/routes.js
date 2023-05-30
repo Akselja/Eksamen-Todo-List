@@ -15,6 +15,8 @@ router.get("/login", controller.login_get);
 
 router.get("/veileder", controller.veileder_get);
 
+router.get("/logout", controller.logout_get);
+
 router.get("/:user", controller.home_get);
 
     // post

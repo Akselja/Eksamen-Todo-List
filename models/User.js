@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
         type : String,
         required : [true, "Password is required"],
         minlength : [8, "Password must be at least 8 characters long"]
+    },
+    admin : {
+        type : Boolean,
+        required : true,
     }
 });
 
@@ -34,11 +38,11 @@ userSchema.statics.login = async function(email, password) {
             return user;
         } else {
             // error message
-            throw new Error("incorrect password");
+            throw new Error("Incorrect password");
         }
     } else {
         // error message
-        throw new Error("incorrect email");
+        throw new Error("Incorrect email");
     }
     
 }   
