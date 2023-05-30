@@ -1,0 +1,29 @@
+<%- include("./partials/head.ejs") %>
+    <!-- scripts -->
+    <script src="js/login.js" defer></script>
+
+    <title>Logg inn | Fiks Ferdig</title>
+</head>
+<body>
+    <main>
+        <%- include("./partials/nav.ejs") %>
+
+        <section id="formMain">
+            <form novalidate>
+                <h1 class="formTitle">Innlogging</h1>
+
+                <label class="formLabel" for="email">Epost</label>
+                <input class="inputField" type="email" name="email" id="email" placeholder="Epost">
+                <div class="emailErr"></div>
+
+                <label class="formLabel" for="password">Passord</label>
+                <input class="inputField" type="password" name="password" id="password" placeholder="Passord">
+                <div class="passwordErr"></div>
+
+                <button class="formButton">Logg inn</button>
+            </form>
+            <a class="link" href="/signup">Registrer deg</a>
+        </section>
+    </main>
+</body>
+</html>

@@ -4,25 +4,32 @@ const Todolist = require("../models/Todolist");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 
-// multer
-const storage = multer.memoryStorage();
-
 // controllers
     // get
+
+module.exports.welcome_get = (req, res) => {
+    // try to connect to welcome page
+    if (req.cookies) {
+        res.redirect("/:user");
+    } else {
+        res.render("welcome", { email : undefined });
+    }
+}
+
 module.exports.home_get = async (req, res) => {
     // try to connect to homepage
-    if (req.cookies.jwt) {
+    if (req.cookies) {
         const cookie = req.cookies.jwt;
         const decoded = jwt.verify(cookie, process.env.secretKey);
-        res.render("home", { pokomonList, email : decoded.email });
+        res.render("home", { email : decoded.email });
     } else {
-        res.render("home", { pokomonList, email : undefined });
+        res.render("home", { email : undefined });
     }
 }
 
 // try to connect to login page
 module.exports.login_get = (req, res) => {
-    if (req.cookies.jwt) {
+    if (req.cookies) {
         const cookie = req.cookies.jwt;
         const decoded = jwt.verify(cookie, process.env.secretKey);
         res.render("login", { email : decoded.email });
@@ -33,7 +40,7 @@ module.exports.login_get = (req, res) => {
 
 // try to connect to signup page
 module.exports.signup_get = (req, res) => {
-    if (req.cookies.jwt) {
+    if (req.cookies) {
         const cookie = req.cookies.jwt;
         const decoded = jwt.verify(cookie, process.env.secretKey);
         res.render("signup", { email : decoded.email });
@@ -42,22 +49,22 @@ module.exports.signup_get = (req, res) => {
     }
 }
 
-module.exports.pokomonPost_get = (req, res) => {
-    if (req.cookies.jwt) {
+module.exports.veileder_get = (req, res) => {
+    if (req.cookies) {
         const cookie = req.cookies.jwt;
         const decoded = jwt.verify(cookie, process.env.secretKey);
-        res.render("pokomon", { email : decoded.email });
+        res.render("veileder", { email : decoded.email });
     } else {
-        res.render("pokomon", { email : undefined });
+        res.render("veileder", { email : undefined });
     }
 }
 
    // post
 module.exports.signup_post = async (req, res) => {
-    const { username, email, password } = req.body;
+    const { email, password } = req.body;
     // try signup
     try {
-        const user = await User.create({ username, email, password });
+        const user = await User.create({ email, password });
         const token = createJWT(user.email);
         if(user) {
             res.status(201).cookie("jwt", token, {maxAge : 604800000, httpOnly : true}).redirect("/");
@@ -86,7 +93,16 @@ module.exports.login_post = async (req, res) => {
 }
 
 module.exports.todo_post = (req, res) => {
-    
+    const { message } = req.body;
+
+    try {
+        const jwt = req.cookies.jwt;
+        const decoded = jwt.verify(cookie, process.env.secretKey);
+        const todo = Todolist.create({ author : decoded.email, message });
+        res.status(201).json({ todo });
+    } catch (err) {
+        res.status(500).json({ error : err });
+    }
 }
 
 
@@ -111,7 +127,7 @@ const createJWT = (email) => {
 
 const getPokomons = async (filter) => {
     // gets pokomons and sorts them
-    const pokomonList = await Chinpokomon.find({filter}).sort({ createdAt : -1 });
+    const todoList = await TodoList.find({filter}).sort({ createdAt : -1 });
     // returns pokomons
-    return pokomonList;
+    return todoList;
 }

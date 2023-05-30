@@ -1,0 +1,36 @@
+<%- include("./partials/head.ejs") %>
+    <!-- scripts -->
+    <script src="js/addEntry.js" defer></script>
+
+    <title>Hjemmeside | Fiks Ferdig</title>
+</head>
+<body>
+    <main>
+        <%- include("./partials/nav.ejs") %>
+
+        <section id="homeMain">
+            <div>
+                <h1 class="homeTitle">The shit I am going to do today</h1>
+            </div>
+            <div class="listContainer">
+                <div class="listEntry">Lorem ipsum dolor sit amet consectetur.</div>
+                <div class="listEntry">Lorem ipsum dolor sit amet consectetur.</div>
+                <div class="listEntry">Lorem ipsum dolor sit amet consectetur.</div>
+                <div class="listEntry">Lorem ipsum dolor sit amet consectetur.</div>
+                <div class="listEntry">Lorem ipsum dolor sit amet consectetur.</div>
+                <div class="listEntry">Lorem ipsum dolor sit amet consectetur.</div>
+            </div>
+            <form>
+                <label for="newEntry">Type new shit here</label>
+                <input type="text" name="newEntry" id="newEntry" placeholder="Type new shit here...">
+                
+                <label>
+                    <input type="submit">
+                    <object data="svg/check-solid.svg" type="svg"></object>
+                </label>
+                
+            </form>
+        </section>
+    </main>    
+</body>
+</html>

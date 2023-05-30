@@ -1,0 +1,185 @@
+/* fonts */
+
+@font-face {
+    font-family: "Lato";
+    src: url(../fonts/Lato-Regular.ttf);
+}
+@font-face {
+    font-family: "Lato-Bold";
+    src: url(../fonts/Lato-Bold.ttf);
+}
+
+/* general & navbar styles*/
+
+body {
+    margin: 100px 0 0 0;
+    font-family: Lato;
+}
+nav {
+    display: flex;
+    justify-content: space-between;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    padding: 20px 30px;
+
+    background-color: black;
+}
+
+.linkDiv {
+    display: flex;
+}
+
+.link {
+    color: black;
+    font-family: Lato;
+    text-decoration: none;
+}
+
+.navLink {
+    margin: 0 30px;
+    color: rgb(228, 228, 228);
+}
+
+/* general text fonts */
+
+h1,
+p {
+    font-family: Lato;
+}
+
+h1,
+h2 {
+    font-size: 2.3rem;
+    margin: 20px;
+}
+
+h2 {
+    font-family: Lato-Bold;
+}
+
+p {
+    font-size: 1.2rem;
+}
+
+/* welcome page */
+
+#welcomeMain {
+    margin: 32vh 0 0 0;
+    display: flex;
+    width: 100vw;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* home page*/
+
+#homeMain {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.homeTitle {
+    font-size: 1.7rem;
+}
+
+.listContainer {
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    scrollbar-gutter: stable both-edges;
+}
+
+.listEntry {
+    display: block;
+    padding: 10px 20px;
+    margin: 13px 0;
+    width: 60vw;
+    border-radius: 3px;
+    border: solid black;
+    color: white;
+    background-color: black;
+}
+
+#newEntry {
+    display: block;
+    align-self: center;
+    padding: 10px 40px;
+    margin: 25px 0;
+    width: 63vw;
+    border-radius: 3px;
+    border: solid black;
+    color: white;
+    background-color: black;
+    font-family: Lato;
+}
+
+/* login & signup pages */
+
+#formMain {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    width: 200px;
+    margin: 0 0 0 50px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+}
+
+.formTitle {
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+label {
+    /* this is for form accessibility */
+    position: absolute;
+    left: -99999px;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+}
+
+.inputField {
+    border-radius: 3px;
+    border: solid;
+
+    padding: 5px;
+    margin: 10px 0;
+    width: 100%;
+}
+
+form button {
+    width: 100px;
+    padding: 7px;
+    margin: 10px 0;
+    background-color: white;
+    border-radius: 3px;
+    border: solid;
+    font-size: 15px;
+    cursor: pointer;
+    transition-duration: 0.1s;
+}
+
+form button:hover {
+    background-color: rgb(139, 139, 139);
+    transition-duration: 0.1s;
+    transform: scale(1.1);
+}
+
+form button:active {
+    background-color: rgb(92, 92, 92);
+    transition-duration: 0.1s;
+    transform: scale(1);
+}

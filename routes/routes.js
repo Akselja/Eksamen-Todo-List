@@ -9,13 +9,13 @@ const router = Router();
     // get
 router.get("/", controller.welcome_get);
 
-router.get("/:user", controller.home_get);
-
 router.get("/signup", controller.signup_get);
 
 router.get("/login", controller.login_get);
 
 router.get("/veileder", controller.veileder_get);
+
+router.get("/:user", controller.home_get);
 
     // post
 router.post("/signup", controller.signup_post);

@@ -1,6 +1,13 @@
 <nav>
-    <!--<img src="/img/placeholderlogo.png" alt="">-->
-    <a href="/">Chinpokomon</a>
-    <a href="/login">Logg inn</a>
-    <a href="/signup">Registrer</a>
+    <div class="linkDiv">
+        <a class="link navLink" href="/">GetShitDone</a>
+    </div>
+    <div class="linkDiv">
+        <a class="link navLink" href="/:user">Todo-List</a>
+        <% if (email) { %>
+        <a class="link navLink" href="/logout">Logg ut</a>
+        <% } else { %>
+        <a class="link navLink" href="/login">Logg inn</a>
+        <% } %>
+    </div>
 </nav>
