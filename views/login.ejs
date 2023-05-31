@@ -1,6 +1,6 @@
 <%- include("./partials/head.ejs") %>
     <!-- scripts -->
-    <script src="js/login.js" defer></script>
+    <script src="/js/login.js" defer></script>
 
     <title>Logg inn | Fiks Ferdig</title>
 </head>
@@ -14,11 +14,11 @@
 
                 <label class="formLabel" for="email">Epost</label>
                 <input class="inputField" type="email" name="email" id="email" placeholder="Epost">
-                <div class="emailErr"></div>
+                <div class="emailErr errDiv"></div>
 
                 <label class="formLabel" for="password">Passord</label>
                 <input class="inputField" type="password" name="password" id="password" placeholder="Passord">
-                <div class="passwordErr"></div>
+                <div class="passwordErr errDiv"></div>
 
                 <button class="formButton">Logg inn</button>
             </form>

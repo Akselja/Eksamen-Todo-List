@@ -26,13 +26,18 @@ form.addEventListener("submit", async e => {
         });
 
         await res.json()
-            .then(errors => {
-                if(errors.errors === "Error: Incorrect email") {
-                    emailErr.textContent = "Incorrect email";
+            .then(result => {
+                if(result.result === "Success") {
+                    window.location.replace("http://localhost/");
+                } else {
+                    if(result.errors === "Error: Incorrect email") {
+                        emailErr.textContent = "Incorrect email";
+                    }
+                    if(result.errors === "Error: Incorrect password") {
+                        passwordErr.textContent = "Incorrect password";
+                    }
                 }
-                if(errors.errors === "Error: Incorrect password") {
-                    passwordErr.textContent = "Incorrect password";
-                }
+                
             })
 
     } catch(err) {

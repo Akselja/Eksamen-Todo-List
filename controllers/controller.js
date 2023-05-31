@@ -1,6 +1,6 @@
 // import
 const User = require("../models/User");
-const Todolist = require("../models/Todolist");
+const TodoList = require("../models/Todolist");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 
@@ -9,8 +9,10 @@ const dotenv = require("dotenv");
 
 module.exports.welcome_get = (req, res) => {
     // try to connect to welcome page
-    if (!req.cookies === undefined) {
-        res.redirect("/:user");
+    if (req.cookies.jwt !== undefined) {
+        const cookie = req.cookies.jwt;
+        const decoded = jwt.verify(cookie, process.env.secretKey);
+        res.redirect("/user/" + decoded.email);
     } else {
         res.render("welcome", { email : undefined });
     }
@@ -18,18 +20,27 @@ module.exports.welcome_get = (req, res) => {
 
 module.exports.home_get = async (req, res) => {
     // try to connect to homepage
-    if (!req.cookies === undefined) {
+    if (req.params.user) {
         const cookie = req.cookies.jwt;
         const decoded = jwt.verify(cookie, process.env.secretKey);
-        res.render("home", { email : decoded.email });
+
+        // gets todo list
+        const todoList = getTodos(decoded.email);
+
+        res.render("home", { email : decoded.email, todoList });
+
+    } else if (req.cookies.jwt !== undefined) {
+        const cookie = req.cookies.jwt;
+        const decoded = jwt.verify(cookie, process.env.secretKey);
+        res.redirect("/user/" + decoded.email);
     } else {
-        res.render("home", { email : undefined });
+        res.redirect("/");
     }
 }
 
 // try to connect to login page
 module.exports.login_get = (req, res) => {
-    if (!req.cookies === undefined) {
+    if (req.cookies.jwt !== undefined) {
         const cookie = req.cookies.jwt;
         const decoded = jwt.verify(cookie, process.env.secretKey);
         res.render("login", { email : decoded.email });
@@ -40,7 +51,7 @@ module.exports.login_get = (req, res) => {
 
 // try to connect to signup page
 module.exports.signup_get = (req, res) => {
-    if (!req.cookies === undefined) {
+    if (req.cookies.jwt !== undefined) {
         const cookie = req.cookies.jwt;
         const decoded = jwt.verify(cookie, process.env.secretKey);
         res.render("signup", { email : decoded.email });
@@ -50,7 +61,7 @@ module.exports.signup_get = (req, res) => {
 }
 
 module.exports.veileder_get = (req, res) => {
-    if (!req.cookies === undefined) {
+    if (req.cookies.jwt !== undefined) {
         const cookie = req.cookies.jwt;
         const decoded = jwt.verify(cookie, process.env.secretKey);
         res.render("veileder", { email : decoded.email });
@@ -60,30 +71,47 @@ module.exports.veileder_get = (req, res) => {
 }
 
 module.exports.logout_get = (req, res) => {
-    if (!req.cookies === undefined) {
+    if (req.cookies.jwt !== undefined) {
+        const token = createJWT("", "");
         res.status(200).cookie("jwt", token, {maxAge : 1, httpOnly : true}).redirect("/");
+    } else {
+        res.status(400);
     }
+}
+
+module.exports.todoList_get = async (req, res) => {
+    if (req.cookies.jwt !== undefined) {
+        const cookie = req.cookies.jwt;
+        const decoded = jwt.verify(cookie, process.env.secretKey);
+
+        const todoList = await getTodos(decoded.email); // gets todolist for updating the frontend
+
+        res.status(200).json({ todoList });
+    } else {
+        res.status(500);
+    }
+    
 }
 
    // post
 module.exports.signup_post = async (req, res) => {
     const { email, password, retry } = req.body;
-    console.log(req.body, email, password, retry);
     // try signup
-    if (password === retry) {
-            try {
+    try {    
+        if (password === retry) { // checks if password matches repeat password
             const user = await User.create({ email, password, admin : false });
             const token = createJWT(user.email, user.admin);
             if(user) {
-                res.status(201).cookie("jwt", token, {maxAge : 604800000, httpOnly : true}).redirect("/");
-            }   
-        } catch (err) {
-            console.log(err);
-            res.status(400).json({ error : err });
-        }
-    } else {
-        res.status(400).json({ error : "Passwords must match" })
-    }
+                res.status(201).cookie("jwt", token, {maxAge : 604800000, httpOnly : true}).json({ result : "Success" });
+            }
+        } else {
+            res.status(400).json({ error : "Passwords must match" });
+        }   
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({ error : err });
+    }    
+
 }
 
 
@@ -93,37 +121,44 @@ module.exports.login_post = async (req, res) => {
     // try login
     try {
         const user = await User.login( email, password );
-        console.log(user);
         const token = createJWT(user.email, user.admin);
-        console.log(token);
         if(user) {
-            res.status(200).cookie("jwt", token, {maxAge : 604800000, httpOnly : true}).redirect("/");
+            res.status(200).cookie("jwt", token, {maxAge : 604800000, httpOnly : true}).json({ result : "Success" });
         }
     } catch (err) {
         res.status(400).json({ errors : err.toString() });
     }
 }
 
-module.exports.todo_post = (req, res) => {
+module.exports.todo_post = async (req, res) => {
     const { message } = req.body;
 
+    // try adding and updating todos
     try {
-        const jwt = req.cookies.jwt;
+        const cookie = req.cookies.jwt;
         const decoded = jwt.verify(cookie, process.env.secretKey);
-        console.log(decoded.email);
+        const todo = await TodoList.create({ author : decoded.email, message });
 
-        const todo = Todolist.create({ author : decoded.email, message });
-        res.status(201).json({ todo });
+        res.status(201).json({ newEntry : todo });
     } catch (err) {
-        res.status(500).json({ error : err });
+        console.log(err);
+        res.status(400).json({ error : err });
     }
 }
 
 
    // 404
 module.exports.error404 = (req, res) => {
-   res.render("404");
+    if (req.cookies.jwt !== undefined) {
+        const cookie = req.cookies.jwt;
+        const decoded = jwt.verify(cookie, process.env.secretKey);
+        res.render("404", { email : decoded.email });
+    } else {
+        res.render("404", { email : undefined });
+    }
 }
+
+
 
 // JWT creation
 const createJWT = (email, admin) => {
@@ -140,9 +175,9 @@ const createJWT = (email, admin) => {
     return newToken;
 }
 
-const getPokomons = async (filter) => {
-    // gets pokomons and sorts them
-    const todoList = await TodoList.find({filter}).sort({ createdAt : -1 });
-    // returns pokomons
+const getTodos = async (filter) => {
+    // gets list and sorts it
+    const todoList = await TodoList.find({ author : filter }).sort({ createdAt : -1 });
+    // returns list
     return todoList;
 }

@@ -1,6 +1,7 @@
 <%- include("./partials/head.ejs") %>
     <!-- scripts -->
-    <script src="js/addEntry.js" defer></script>
+    <script src="https://kit.fontawesome.com/2120ba475c.js" crossorigin="anonymous"></script>
+    <script src="/js/addEntry.js" defer></script>
 
     <title>Hjemmeside | Fiks Ferdig</title>
 </head>
@@ -13,16 +14,10 @@
                 <h1 class="homeTitle">The shit I am going to do today</h1>
             </div>
             <div class="listContainer">
-                <div class="listEntry">Lorem ipsum dolor sit amet consectetur.</div>
-                <div class="listEntry">Lorem ipsum dolor sit amet consectetur.</div>
-                <div class="listEntry">Lorem ipsum dolor sit amet consectetur.</div>
-                <div class="listEntry">Lorem ipsum dolor sit amet consectetur.</div>
-                <div class="listEntry">Lorem ipsum dolor sit amet consectetur.</div>
-                <div class="listEntry">Lorem ipsum dolor sit amet consectetur.</div>
             </div>
-            <form>
-                <label for="newEntry">Type new shit here</label>
-                <input type="text" name="newEntry" id="newEntry" placeholder="Type new shit here...">
+            <form class="newEntry" novalidate>
+                <label for="newEntryMessage">Type new shit here</label>
+                <input type="text" name="newEntryMessage" id="newEntryMessage" placeholder="Type new shit here...">
             </form>
         </section>
     </main>    

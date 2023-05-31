@@ -28,26 +28,27 @@ form.addEventListener("submit", async e => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ email, password, retry })
-    })
-    .then(result => {
-        // this code gets the response, then gets the promise and waits for it to resolve, to then get the error message.
-        result.json().then(value => {
-            const errors = value.error.errors;
-            if (!errors.email === undefined) {
-                console.log(errors.email.message);
-                emailErr.innerText = errors.email.message;
-            }
-            if (!errors.password == undefined) {
-                console.log(errors.password.message);
-                passwordErr.innerText = errors.password.message;
-            }
-            if (value.error === "Passwords must match") {
-                retryErr.innerText = "Passwords must match";
+    });
+
+    await res.json()
+        .then(result => {
+            if(result.result === "Success") { // success, redirecting
+                window.location.replace("http://localhost/");
+            } else if (result.error === "Passwords must match") { // password comparison error
+                retryErr.textContent = result.error;
+            } else if (result.error.errors !== undefined) { // email or password errors
+                const errorList = result.error.errors;
+                if(errorList.email !== undefined) { // email error
+                    emailErr.textContent = errorList.email.message;
+                }
+                if(errorList.password !== undefined) { // password error
+                    passwordErr.textContent = errorList.password.message;
+                }
             }
         })
-    });
+
     } catch (err) {
-        console.log(err);
+
     }
     
     

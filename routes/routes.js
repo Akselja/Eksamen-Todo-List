@@ -17,7 +17,11 @@ router.get("/veileder", controller.veileder_get);
 
 router.get("/logout", controller.logout_get);
 
-router.get("/:user", controller.home_get);
+router.get("/todo", controller.todoList_get);
+
+router.get("/user", controller.home_get);
+
+router.get("/user/:user", controller.home_get);
 
     // post
 router.post("/signup", controller.signup_post);
