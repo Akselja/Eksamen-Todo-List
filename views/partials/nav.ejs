@@ -1,11 +1,31 @@
 <nav>
-    <div class="linkDiv">
-        <a class="link navLink" href="/">GetShitDone</a>
-    </div>
-    <div class="linkDiv">
+    <div class="navbar">
+        <div class="linkDiv">
+            <a class="link navLink" href="/">GetShitDone</a>
+        </div>
+        <div class="linkDiv">
 
-        <% if (email) { %>
-        <p class="link navLink"><%- email %></p> <!-- email display -->
+            <% if (email) { %>
+            <p class="link navLink"><%- email %></p> <!-- email display -->
+            <% } %>
+
+            <% if (admin) { %>
+            <a class="link navLink" href="/veileder">Veileder</a> <!-- veileder -->
+            <% } %>
+
+            <a class="link navLink" href="/user/">Todo-List</a>
+
+            <% if (email) { %>
+            <a class="link navLink" href="/logout">Logg ut</a> <!-- logout -->
+            <% } else { %>
+            <a class="link navLink" href="/login">Logg inn</a> <!-- login -->
+            <% } %>
+        </div> 
+    </div>
+    
+    <div class="dropdownMenu">
+        <% if (admin) { %>
+        <a class="link navLink" href="/veileder">Veileder</a> <!-- veileder -->
         <% } %>
 
         <a class="link navLink" href="/user/">Todo-List</a>
@@ -15,6 +35,5 @@
         <% } else { %>
         <a class="link navLink" href="/login">Logg inn</a> <!-- login -->
         <% } %>
-
     </div>
 </nav>

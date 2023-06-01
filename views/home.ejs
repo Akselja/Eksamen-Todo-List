@@ -1,8 +1,7 @@
 <%- include("./partials/head.ejs") %>
     <!-- scripts -->
-    <script src="https://kit.fontawesome.com/2120ba475c.js" crossorigin="anonymous"></script>
     <script src="/js/addEntry.js" defer></script>
-
+    
     <title>Hjemmeside | Fiks Ferdig</title>
 </head>
 <body>
@@ -10,8 +9,10 @@
         <%- include("./partials/nav.ejs") %>
 
         <section id="homeMain">
-            <div>
+            <div class="listTitleContainer">
+                <i class="fa-solid fa-chevron-left fa-2xl" style="color: #000000;"></i>
                 <h1 class="homeTitle">The shit I am going to do today</h1>
+                <i class="fa-solid fa-chevron-right fa-2xl" style="color: #000000;"></i>
             </div>
             <div class="listContainer">
             </div>

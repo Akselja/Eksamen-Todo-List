@@ -1,13 +1,88 @@
 <%- include("./partials/head.ejs") %>
-    <!--styles-->
-    <link rel="stylesheet" href="css/styles.css">
-
     <title>Veileder | Fiks Ferdig</title>
 </head>
 <body>
     <main>
         <%- include("./partials/nav.ejs") %>
 
+        <section class="veilederContainer" id="veilederBrukere">
+            <h1 class="veilederTittel">Veileder</h1>
+            <section class="veilederContainer" id="opprettBruker">
+                <h2 class="veilederTittel">Opprett Bruker</h2>
+                <div class="veilederContainer">
+                    <p class="veilederText">Først, skriv "sudo su" for root-tilgang, så fyll ut passordet ditt.</p>
+                    <img class="veilederImage" src="/img/brukerBilde1.png" alt="sudo su">
+                </div>
+                <div class="veilederContainer">
+                    <p class="veilederText">Så skriv "adduser [ditt brukernavn]", dette vil starte opprettingsprosessen av brukeren.</p>
+                    <img class="veilederImage" src="/img/brukerBilde2.png" alt="adduser test">
+                </div>
+                <div class="veilederContainer">
+                    <p class="veilederText">Lag et passord og gjenta det.</p>
+                    <img class="veilederImage" src="/img/brukerBilde3.png" alt="skriv passord">
+                </div>
+                <div class="veilederContainer">
+                    <p class="veilederText">Velg selv hva du ønsker å fylle ut her, noter at det ikke er nødvendig å fylle noe ut.</p>
+                    <img class="veilederImage" src="/img/brukerBilde4.png" alt="utfylling av brukerinformasjon">
+                    <p class="veilederText">Og da bør du har en nyopprettet bruker.</p>
+                </div>
+            </section>
+            <section class="veilederContainer" id="sshOppsett">
+                <h2 class="veilederTittel">Sett opp SSH</h2>
+                <div class="veilederContainer">
+                    <p class="veilederText">Lag en ny mappe i brukeren som heter ".ssh".</p>
+                    <img class="veilederImage" src="/img/brukerBilde5.png" alt="mkdir test/.ssh/">
+                </div>
+                <div class="veilederContainer">
+                    <p class="veilederText">Deretter gå inn i mappen og opprett en ny fil som heter "authorized_keys".</p>
+                    <img class="veilederImage" src="/img/brukerBilde6.png" alt="cd test/.ssh/, sudo nano authorized_keys">
+                </div>
+                <div class="veilederContainer">
+                    <p class="veilederText">Kopier nå inn den offentlige SSH-nøkkelen din.</p>
+                    <img class="veilederImage" src="/img/brukerBilde7.png" alt="ssh-nøkkel innliming">
+                </div>
+                <div class="veilederContainer">
+                    <p class="veilederText">Lagre med å trykke CTRL + O så enter, også CTRL + X for å gå ut.</p>
+                    <img class="veilederImage" src="/img/brukerBilde8.png" alt="ctrl + o, enter, ctrl + x">
+                </div>
+            </section>
+            <section class="veilederContainer" id="sudoRettigheter">
+                <h2 class="veilederTittel">Gi bruker sudo-rettigheter</h2>
+                <div class="veilederContainer">
+                    <p class="veilederText">Dette er så simpelt som å skrive usermod -aG sudo [ditt brukernavn].</p>
+                    <p class="veilederText">-a står for add, og -G står for group, det vil legge en gruppe til en bruker, i dette tilfellet sudo gruppen.</p>
+                    <img class="veilederImage" src="/img/brukerBilde9.png" alt="usermod -aG sudo test">
+                </div>
+            </section>
+        </section>
+        <section class="veilederContainer" id="veilederSikkerhet">
+            <h1 class="veilederTittel">Vanlige trusseller serveren kan bli utsatt for</h1>
+            <section class="veilederContainer" id="xssAngrep">
+                <h2 class="veilederTittel">Cross-Site Scripting (XSS)</h2>
+                <div class="veilederContainer">
+                    <p class="veilederText">Dette kan skje når kode blir sendt inn i ting som databaser gjennom input-felt, for å så bli sendt tilbake til klientsiden, lagt inn i nettsiden, og deretter kjørt fordi det blir stolt på av serveren grunnet at det kom fra serveren. Dette kan lede til seriøse ting som f.eks SQL injection angrep, eller tillegg av lenker som kan skade andre brukere.</p>
+                    <p class="veilederText">XSS angrep kan bli forebygget ved å unngå å bruke innerHTML når man legger til kode der brukerdefinerte variabler legges til. Et alternativ er «.appendChild(document.createElement(«»))» og videre modifikasjon gjennom metoder for å endre elementet lagt til.</p>
+                    <img class="veilederImage" src="/img/sikkerhetsBilde1.png" alt="risikabel kode som kan lede til et XSS-angrep gjennom bruken av .innerHTML">
+                </div>
+            </section>
+            <section class="veilederContainer" id="sqlInjection">
+                <h2 class="veilederTittel">SQL Injection</h2>
+                <div class="veilederContainer">
+                    <p class="veilederText">SQL injection angrep er når kode som leser eller modifiserer databasen blir sendt til serveren. Dette kan skje gjennom angrep som XSS angrep og blir ofte veldig seriøse, fordi de kan føre til tap av store mengder data.</p>
+                    <p class="veilederText">Løsningen til dette ligger i å stoppe fremmed kode fra å nå serveren, og det er derfor lurt å først tenke på hvordan man kan stoppe XSS angrep, så deretter ta det videre hvis det finnes flere risikoer.</p>
+                    <img class="veilederImage" src="/img/sikkerhetsBilde2.png" alt="eksempelkode av en SQL injection som dropper(sletter) en database">
+                </div>
+            </section>
+            <section class="veilederContainer" id="crsfAngrep">
+                <h2 class="veilederTittel">Cross-Site Request Forgery</h2>
+                <div class="veilederContainer">
+                    <p class="veilederText">Cross-Site Request Forgery angrep er når en ondsinnet aktør bruker legitimasjonen til en annen bruker for å komme seg gjennom autentiseringsprosesser. Dette kan blir gjort hvis nettsiden ikke har et godt autentiseringssystem.</p>
+                    <p class="veilederText">Et godt kjent og veldig simpelt eksempel er hvis en bank har en side med en post request hvor man kan overføre penger, og det blir gjort ved å bare skrive inn senderen, mottakeren, og mengden penger. Da kan en aktør skrive inn en fremmed sin bruker, sin egen bruker, og alle resterende penger senderen har. Dette vil telles som et CRSF angrep fordi aktøren autentiserer seg med legitimasjon de ikke skal ha tilgang til.</p>
+                    <p class="veilederText">Dette kan skje på mye mer komplekse nivåer, men en god måte på å beskytte mot dette er å bruke et token-system som har god sikkerhet, der brukeren ikke kan modifisere legitimasjonen sendt til serveren. Et godt valg, og valget av denne nettsiden er JSON Web Token (JWT).</p>
+                    <img class="jwtImage veilederImage" src="/img/sikkerhetsBilde3.png" alt="JWT-logoen">
+                </div>
+            </section>
+        </section>
     </main>
 </body>
 </html>

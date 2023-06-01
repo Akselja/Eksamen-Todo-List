@@ -3,7 +3,9 @@ const User = require("../models/User");
 const TodoList = require("../models/Todolist");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
-
+const mongoose = require("mongoose");
+const { ObjectId } = require("bson");
+ 
 // controllers
     // get
 
@@ -12,9 +14,9 @@ module.exports.welcome_get = (req, res) => {
     if (req.cookies.jwt !== undefined) {
         const cookie = req.cookies.jwt;
         const decoded = jwt.verify(cookie, process.env.secretKey);
-        res.redirect("/user/" + decoded.email);
+        res.redirect("/" + decoded.email);
     } else {
-        res.render("welcome", { email : undefined });
+        res.render("welcome", { email : undefined, admin : undefined });
     }
 }
 
@@ -27,12 +29,12 @@ module.exports.home_get = async (req, res) => {
         // gets todo list
         const todoList = getTodos(decoded.email);
 
-        res.render("home", { email : decoded.email, todoList });
+        res.render("home", { email : decoded.email, admin : decoded.admin, todoList });
 
     } else if (req.cookies.jwt !== undefined) {
         const cookie = req.cookies.jwt;
         const decoded = jwt.verify(cookie, process.env.secretKey);
-        res.redirect("/user/" + decoded.email);
+        res.redirect("/" + decoded.email);
     } else {
         res.redirect("/");
     }
@@ -43,9 +45,9 @@ module.exports.login_get = (req, res) => {
     if (req.cookies.jwt !== undefined) {
         const cookie = req.cookies.jwt;
         const decoded = jwt.verify(cookie, process.env.secretKey);
-        res.render("login", { email : decoded.email });
+        res.render("login", { email : decoded.email, admin : decoded.admin });
     } else {
-        res.render("login", { email : undefined });
+        res.render("login", { email : undefined, admin : undefined });
     }
 }
 
@@ -54,9 +56,9 @@ module.exports.signup_get = (req, res) => {
     if (req.cookies.jwt !== undefined) {
         const cookie = req.cookies.jwt;
         const decoded = jwt.verify(cookie, process.env.secretKey);
-        res.render("signup", { email : decoded.email });
+        res.render("signup", { email : decoded.email, admin : decoded.admin });
     } else {
-        res.render("signup", { email : undefined });
+        res.render("signup", { email : undefined, admin : undefined });
     }
 }
 
@@ -64,9 +66,16 @@ module.exports.veileder_get = (req, res) => {
     if (req.cookies.jwt !== undefined) {
         const cookie = req.cookies.jwt;
         const decoded = jwt.verify(cookie, process.env.secretKey);
-        res.render("veileder", { email : decoded.email });
+
+        // authorization
+        if (decoded.admin === true) {
+
+            res.render("veileder", { email : decoded.email, admin : decoded.admin });
+        } else {
+            res.status(401).json({ message : "Unauthorized" });
+        }
     } else {
-        res.render("veileder", { email : undefined });
+        res.status(401).json({ message : "Unauthorized" });
     }
 }
 
@@ -146,15 +155,46 @@ module.exports.todo_post = async (req, res) => {
     }
 }
 
+module.exports.delete_post = async (req, res) => {
+    const { id } = req.body;
+
+    if (req.cookies.jwt !== undefined) {
+        try {
+            // convert id string to ObjectId type object
+            const _id = new ObjectId(id);
+
+            // finding selected entry for authorizing
+            const emailAuth = await TodoList.findOne({ _id });
+
+            // authorize
+            const cookie = req.cookies.jwt;
+            const decoded = jwt.verify(cookie, process.env.secretKey)
+            if(emailAuth.author === decoded.email) {
+
+                // delete selected entry
+                const deletedTodo = await TodoList.findOneAndDelete({ _id });
+                res.status(200).json({ deletedTodo });
+            } else {
+                res.status(401).json({ message : "Unauthorized" });
+            }
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ message : "Internal Server Error", err : "Error: " + err });
+        }
+    } else {
+        res.status(401).json({ message : "Unauthorized" });
+    }
+
+}
 
    // 404
 module.exports.error404 = (req, res) => {
     if (req.cookies.jwt !== undefined) {
         const cookie = req.cookies.jwt;
         const decoded = jwt.verify(cookie, process.env.secretKey);
-        res.render("404", { email : decoded.email });
+        res.render("404", { email : decoded.email, admin : decoded.admin });
     } else {
-        res.render("404", { email : undefined });
+        res.render("404", { email : undefined, admin : undefined });
     }
 }
 

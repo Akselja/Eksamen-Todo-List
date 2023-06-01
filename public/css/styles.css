@@ -15,7 +15,7 @@ body {
     margin: 100px 0 0 0;
     font-family: Lato;
 }
-nav {
+.navbar {
     display: flex;
     justify-content: space-between;
 
@@ -43,6 +43,23 @@ nav {
     margin: 0 30px;
     font-size: 1rem;
     color: rgb(228, 228, 228);
+}
+
+.dropdownMenu {
+    display: flex;
+    flex-direction: column;
+    align-items: top;
+    justify-content: space-evenly;
+
+    position: fixed;
+    top: 59.2px;
+    right: 0;
+    left: auto;
+
+    width: fit-content;
+    height: 150px;
+
+    background-color: black;
 }
 
 /* general text fonts */
@@ -96,15 +113,33 @@ p {
     scrollbar-gutter: stable both-edges;
 }
 
+.listTitleContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 75vw;
+}
+
 .listEntry {
-    display: block;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 14px 20px;
     margin: 13px 0;
     width: 60vw;
     border-radius: 4px;
     border: solid black;
-    color: white;
     background-color: black;
+}
+
+.entryText {
+    font-size: 1rem;
+    color: white;
+    margin: 0;
+}
+
+.deleteIcon:hover {
+    cursor: pointer;
 }
 
 #newEntryMessage {
@@ -118,6 +153,11 @@ p {
     color: white;
     background-color: black;
     font-family: Lato;
+}
+
+.finishedTodo {
+    text-decoration: line-through white;
+    color: lightslategray;
 }
 
 /* login & signup pages */
@@ -187,4 +227,63 @@ form button:active {
     background-color: rgb(92, 92, 92);
     transition-duration: 0.1s;
     transform: scale(1);
+}
+
+/* veileder */
+
+#veilederBrukere, #veilederSikkerhet {
+    margin: 50px;
+}
+
+.veilederImage {
+    border: solid 2px black;
+}
+
+.jwtImage {
+    width: 35vw;
+    height: auto;
+}
+
+.veilederTittel {
+    margin: 20px 0;
+}
+
+.veilederText {
+    width: 56vw;
+}
+
+/* media queries */
+
+@media screen and (max-width: 825px) {
+    .veilederContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .veilederImage {
+        width: 70vw !important;
+    }
+    .navLink {
+        font-size: 0.9rem;
+        margin: 0 20px;
+    }
+}
+@media screen and (max-width: 680px) {
+    .veilederImage {
+        width: 90vw !important;
+    }
+    .veilederTittel {
+        font-size: 1.7rem !important;
+    }
+    .navLink {
+        font-size: 0.8rem;
+        margin: 0 15px;
+    }
+}
+@media screen and (max-width: 500px) {
+    .veilederText {
+        width: 90vw !important;
+        overflow-wrap: break-word;
+    }
 }

@@ -28,7 +28,7 @@ form.addEventListener("submit", async e => {
         await res.json()
             .then(result => {
                 if(result.result === "Success") {
-                    window.location.replace("http://localhost/");
+                    window.location.replace("/");
                 } else {
                     if(result.errors === "Error: Incorrect email") {
                         emailErr.textContent = "Incorrect email";
