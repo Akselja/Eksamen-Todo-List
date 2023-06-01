@@ -33,7 +33,7 @@ form.addEventListener("submit", async e => {
     await res.json()
         .then(result => {
             if(result.result === "Success") { // success, redirecting
-                window.location.replace("http://localhost/");
+                window.location.replace("/");
             } else if (result.error === "Passwords must match") { // password comparison error
                 retryErr.textContent = result.error;
             } else if (result.error.errors !== undefined) { // email or password errors

@@ -40,13 +40,15 @@ body {
 }
 
 .navLink {
+    display: flex;
+    align-items: center;
     margin: 0 30px;
     font-size: 1rem;
     color: rgb(228, 228, 228);
 }
 
 .dropdownMenu {
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: top;
     justify-content: space-evenly;
@@ -60,6 +62,18 @@ body {
     height: 150px;
 
     background-color: black;
+}
+
+.visible {
+    display: flex !important;
+}
+
+.dropdownButtonDiv {
+    display: none;
+}
+
+.dropdownButton:hover {
+    cursor: pointer;
 }
 
 /* general text fonts */
@@ -268,6 +282,9 @@ form button:active {
         font-size: 0.9rem;
         margin: 0 20px;
     }
+    .dropdownMenu {
+        top: 57.6px;
+    }
 }
 @media screen and (max-width: 680px) {
     .veilederImage {
@@ -280,7 +297,24 @@ form button:active {
         font-size: 0.8rem;
         margin: 0 15px;
     }
+    .dropdownMenu {
+        top: 55.2px;
+    }
 }
+
+@media screen and (max-width: 570px) {
+    .linkDivResponsive {
+        display: none !important;
+    }
+    .dropdownButtonDiv {
+        display: flex !important;
+        align-items: center;
+    }
+    .navLink {
+        font-size: 1rem;
+    }
+}
+
 @media screen and (max-width: 500px) {
     .veilederText {
         width: 90vw !important;

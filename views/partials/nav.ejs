@@ -3,7 +3,7 @@
         <div class="linkDiv">
             <a class="link navLink" href="/">GetShitDone</a>
         </div>
-        <div class="linkDiv">
+        <div class="linkDivResponsive linkDiv">
 
             <% if (email) { %>
             <p class="link navLink"><%- email %></p> <!-- email display -->
@@ -21,6 +21,9 @@
             <a class="link navLink" href="/login">Logg inn</a> <!-- login -->
             <% } %>
         </div> 
+        <div class="dropdownButtonDiv">
+            <i class="fa-solid fa-bars fa-2xl dropdownButton" style="color: #ffffff;"></i> 
+        </div>
     </div>
     
     <div class="dropdownMenu">
